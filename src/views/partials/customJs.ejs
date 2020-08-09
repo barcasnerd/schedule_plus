@@ -19,54 +19,32 @@
         keyboard: false
     });
 
-    save.addEventListener('click', () => {
-        loadModal.show();
-        setTimeout(function () {
-            reloadPage();
-        }, 10000);
+    document.getElementById('saveButton').addEventListener('click',()=>{
+        reloadPage();
     });
 
+    function reloadPage() {
+        loadModal.show();
+        setTimeout(() => {
+            demoFromHTML()
+        }, 3000);
+    }
 
+    function demoFromHTML() {
+        var pdf = new jsPDF('p', 'pt', 'letter');
 
-    //Create PDf from HTML...
-    function CreatePDFfromHTML() {
-        console.log('start jsPDF');
-        return new Promise(() => {
-
-            var HTML_Width = $("#schedule").width();
-            var HTML_Height = $("#schedule").height();
-            var top_left_margin = 15;
-            var PDF_Width = HTML_Width + (top_left_margin * 2);
-            var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-            var canvas_image_width = HTML_Width;
-            var canvas_image_height = HTML_Height;
-
-            var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-            html2canvas($("#schedule")[0]).then(function (canvas) {
-                var imgData = canvas.toDataURL("image/jpeg", 1.0);
-                var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-                pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-                for (var i = 1; i <= totalPDFPages; i++) {
-                    pdf.addPage(PDF_Width, PDF_Height);
-                    pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-                }
-                pdf.save("myscheduleplus.pdf");
-                console.log('finish jsPDF');
-                loadModal.show();
-                location.reload();
+        pdf.cellInitialize();
+        pdf.setFontSize(10);
+        $.each($('#schedule tr'), function (i, row) {
+            $.each($(row).find("td, th"), function (j, cell) {
+                var txt = $(cell).text().trim() || " ";
+                var width = (j == 4) ? 40 : 70; //make 4th column smaller
+                pdf.cell(10, 50, width, 30, txt, i);
             });
         });
 
+        pdf.save('sample-file.pdf');
+        location.reload();
     }
 
-    async function reloadPage() {
-        await CreatePDFfromHTML().then(() => {
-            console.log('noreload')
-            location.reload();
-        }, () => {
-            console.log('promise');
-        });
-
-    }
 </script>
