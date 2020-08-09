@@ -15,11 +15,15 @@
 <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
 
+    var loadModal = new bootstrap.Modal(document.getElementById('loadModal'), {
+        keyboard: false
+    });
 
     save.addEventListener('click', () => {
+        loadModal.show();
         setTimeout(function () {
             reloadPage();
-        }, 8000);
+        }, 10000);
     });
 
 
@@ -49,6 +53,7 @@
                 }
                 pdf.save("myscheduleplus.pdf");
                 console.log('finish jsPDF');
+                loadModal.show();
                 location.reload();
             });
         });
