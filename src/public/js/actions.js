@@ -1,3 +1,5 @@
+//import html2canvas from 'html2canvas.min.js';
+
 const htmlTag = document.querySelector('html');
 const bodyTag = document.querySelector('body');
 const myNav = document.querySelector('nav');
@@ -7,6 +9,7 @@ var thElements = document.querySelectorAll('th');
 var tdElements = document.querySelectorAll('td');
 var color = document.getElementById('colorChooser');
 var materia = document.getElementById('materia');
+var content = document.getElementById('create');
 var index = 0;
 var id = 0;
 var firstColor = true;
@@ -38,7 +41,7 @@ function changeColor(item) {
     if (firstColor == true || mate.length == 0 || mate.includes('  ', 0)) {
         ruleModal.show();
 
-    } else if(item.getAttribute('status')==='1') {
+    } else if (item.getAttribute('status') === '1') {
         if (colo.includes('#ff', 0)) {
             item.setAttribute('style', 'background-color:' + color.value + ';' + 'color:black;padding:0px;');
         } else {
@@ -51,7 +54,7 @@ function changeColor(item) {
             item.innerText = materia.value.substring(0, 6).toUpperCase() + "...";
         }
         item.setAttribute('status', '2');
-    }else{
+    } else {
         item.setAttribute('style', 'background-color:#202020;');
         item.innerText = ' ';
         item.setAttribute('status', '1');
@@ -101,13 +104,14 @@ reset.addEventListener('click', () => {
     tdElements.forEach((item) => {
         if (index > 7) {
             item.setAttribute('style', 'background-color:#202020;');
-            item.innerText=' ';
+            item.innerText = ' ';
         }
         index++;
     });
 });
 
 //adding save button actions
-save.addEventListener('click',()=>{
-    alert('Función no disponible por el momento.');
-});
+/*save.addEventListener('click',()=>{
+
+});*/
+
